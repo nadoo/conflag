@@ -33,7 +33,6 @@ func main() {
 	flag.Parse()
 
 	// now you're able get the parsed flag values
-	fmt.Printf("YOUR INPUT:\n")
 	fmt.Printf("  Name: %s\n", conf.Name)
 	fmt.Printf("  Age: %d\n", conf.Age)
 	fmt.Printf("  IsMan: %v\n", conf.IsMan)
