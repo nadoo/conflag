@@ -60,7 +60,7 @@ name=Jason
 age=20
 isman
 ```
-command:
+command: **use "-config" flag to specify the config file path.**
 ```bash
 sample -config sample.conf
 ```
@@ -71,7 +71,7 @@ output:
   IsMan: true
 ```
 
-### Run with config file and override using commandline:
+### Run with config file and OVERRIDE a flag value using commandline:
 sample.conf:
 ```bash
 name=Jason
