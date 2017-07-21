@@ -14,20 +14,19 @@ import (
 )
 
 var conf struct {
-	Name  string
-	Age   int
-	IsMan bool
+	Name string
+	Age  int
+	Male bool
 }
 
 func main() {
-
 	// get a new conflag instance
 	flag := conflag.New()
 
 	// setup flags as the standard flag package
 	flag.StringVar(&conf.Name, "name", "", "your name")
 	flag.IntVar(&conf.Age, "age", 0, "your age")
-	flag.BoolVar(&conf.IsMan, "isman", false, "are you man")
+	flag.BoolVar(&conf.Male, "male", false, "your sex")
 
 	// parse before access flags
 	flag.Parse()
@@ -35,10 +34,8 @@ func main() {
 	// now you're able to get the parsed flag values
 	fmt.Printf("  Name: %s\n", conf.Name)
 	fmt.Printf("  Age: %d\n", conf.Age)
-	fmt.Printf("  IsMan: %v\n", conf.IsMan)
-
+	fmt.Printf("  Male: %v\n", conf.Male)
 }
-
 ```
 
 ### Run without config file:
@@ -50,7 +47,7 @@ output:
 ```bash
   Name: Jay
   Age: 30
-  IsMan: false
+  Male: false
 ```
 
 ### Run with config file(-config):
@@ -58,7 +55,7 @@ sample.conf:
 ```bash
 name=Jason
 age=20
-isman
+male
 ```
 command: **use "-config" flag to specify the config file path.**
 ```bash
@@ -68,7 +65,7 @@ output:
 ```bash
   Name: Jason
   Age: 20
-  IsMan: true
+  Male: true
 ```
 
 ### Run with config file and OVERRIDE a flag value using commandline:
@@ -76,7 +73,7 @@ sample.conf:
 ```bash
 name=Jason
 age=20
-isman
+male
 ```
 command:
 ```bash
@@ -86,5 +83,5 @@ output:
 ```bash
   Name: Michael
   Age: 20
-  IsMan: true
+  Male: true
 ```

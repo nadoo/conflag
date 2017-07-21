@@ -7,9 +7,9 @@ import (
 )
 
 var conf struct {
-	Name  string
-	Age   int
-	IsMan bool
+	Name string
+	Age  int
+	Male bool
 }
 
 func main() {
@@ -19,7 +19,7 @@ func main() {
 	// setup flags as the standard flag package
 	flag.StringVar(&conf.Name, "name", "", "your name")
 	flag.IntVar(&conf.Age, "age", 0, "your age")
-	flag.BoolVar(&conf.IsMan, "isman", false, "are you man")
+	flag.BoolVar(&conf.Male, "male", false, "your sex")
 
 	// parse before access flags
 	flag.Parse()
@@ -27,5 +27,5 @@ func main() {
 	// now you're able to get the parsed flag values
 	fmt.Printf("  Name: %s\n", conf.Name)
 	fmt.Printf("  Age: %d\n", conf.Age)
-	fmt.Printf("  IsMan: %v\n", conf.IsMan)
+	fmt.Printf("  Male: %v\n", conf.Male)
 }
