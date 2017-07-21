@@ -13,7 +13,6 @@ var conf struct {
 }
 
 func main() {
-
 	// get a new conflag instance
 	flag := conflag.New()
 
@@ -25,9 +24,8 @@ func main() {
 	// parse before access flags
 	flag.Parse()
 
-	// now you're able get the parsed flag values
+	// now you're able to get the parsed flag values
 	fmt.Printf("  Name: %s\n", conf.Name)
 	fmt.Printf("  Age: %d\n", conf.Age)
 	fmt.Printf("  IsMan: %v\n", conf.IsMan)
-
 }

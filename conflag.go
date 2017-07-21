@@ -26,7 +26,6 @@ func New(args ...string) *Conflag {
 	}
 
 	c := &Conflag{}
-
 	c.app = args[0]
 	c.osArgs = args[1:]
 	c.FlagSet = flag.NewFlagSet(c.app, flag.ExitOnError)
@@ -39,14 +38,24 @@ func New(args ...string) *Conflag {
 func (c *Conflag) Parse() (err error) {
 	// parse 1st time and see whether there is a conf file.
 	err = c.FlagSet.Parse(c.osArgs)
-	if err != nil || c.cfgFile == "" {
+	if err != nil {
 		return err
+	}
+
+	// if there is no args, just try to load the app.conf file.
+	if len(c.osArgs) == 0 {
+		c.cfgFile = c.app + ".conf"
+	}
+
+	if c.cfgFile == "" {
+		return nil
 	}
 
 	fargs, err := parseFile(c.cfgFile)
 	if err != nil {
 		return err
 	}
+
 	c.args = fargs
 	c.args = append(c.args, c.osArgs...)
 
@@ -65,11 +74,9 @@ func parseFile(cfgFile string) ([]string, error) {
 	scanner := bufio.NewScanner(fp)
 	for scanner.Scan() {
 		line := scanner.Text()
-
 		if len(line) == 0 || line[:1] == "#" {
 			continue
 		}
-
 		s = append(s, "-"+line)
 	}
 
