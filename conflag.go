@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"os"
+	"strings"
 )
 
 // Conflag .
@@ -74,6 +75,7 @@ func parseFile(cfgFile string) ([]string, error) {
 	scanner := bufio.NewScanner(fp)
 	for scanner.Scan() {
 		line := scanner.Text()
+		line = strings.TrimSpace(line)
 		if len(line) == 0 || line[:1] == "#" {
 			continue
 		}
