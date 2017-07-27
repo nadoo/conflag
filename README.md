@@ -95,13 +95,17 @@ output:
 ## config file
 # comment line starts with "#"
 
+# format:
+#KEY=VALUE, 
+# just use the command line flag name as the key name
+
 # your name
 name=Jason
 
 # your age
 age=20
 
-# are you man
-isman
+# are you male?
+male
 ```
-See [sample.conf](sample/sample.conf)
+See [simple.conf](examples/simple/simple.conf)
