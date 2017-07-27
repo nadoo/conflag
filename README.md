@@ -85,3 +85,23 @@ output:
   Age: 20
   Male: true
 ```
+
+## Config File
+- format: KEY=VALUE
+
+**just use the command line flag name as the key name**:
+
+```bash
+## config file
+# comment line starts with "#"
+
+# your name
+name=Jason
+
+# your age
+age=20
+
+# are you man
+isman
+```
+See [sample.conf](sample/sample.conf)

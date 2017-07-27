@@ -35,6 +35,14 @@ func New(args ...string) *Conflag {
 	return c
 }
 
+// NewFromFile ...
+func NewFromFile(cfgFile string) *Conflag {
+	c := &Conflag{app: os.Args[0],
+		cfgFile: cfgFile,
+	}
+	return c
+}
+
 // Parse ...
 func (c *Conflag) Parse() (err error) {
 	// parse 1st time and see whether there is a conf file.
@@ -44,12 +52,8 @@ func (c *Conflag) Parse() (err error) {
 	}
 
 	// if there is no args, just try to load the app.conf file.
-	if len(c.osArgs) == 0 {
+	if c.cfgFile == "" && len(c.osArgs) == 0 {
 		c.cfgFile = c.app + ".conf"
-	}
-
-	if c.cfgFile == "" {
-		return nil
 	}
 
 	fargs, err := parseFile(c.cfgFile)
