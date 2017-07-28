@@ -37,9 +37,10 @@ func New(args ...string) *Conflag {
 
 // NewFromFile ...
 func NewFromFile(cfgFile string) *Conflag {
-	c := &Conflag{app: os.Args[0],
-		cfgFile: cfgFile,
-	}
+	c := &Conflag{}
+	c.app = os.Args[0]
+	c.cfgFile = cfgFile
+	c.FlagSet = flag.NewFlagSet(c.app, flag.ExitOnError)
 	return c
 }
 
