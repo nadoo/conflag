@@ -63,6 +63,10 @@ func (c *Conflag) Parse() (err error) {
 		c.cfgFile = c.app + ".conf"
 	}
 
+	if c.cfgFile == "" {
+		return nil
+	}
+
 	fargs, err := parseFile(c.cfgFile)
 	if err != nil {
 		return err
