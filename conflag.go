@@ -16,7 +16,7 @@ type Conflag struct {
 	cfgFile string
 	args    []string
 
-	// TODO: add shorthand? of just use pflag?
+	// TODO: add shorthand? or just use pflag?
 	// shorthand map[byte]string
 }
 
