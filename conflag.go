@@ -60,7 +60,19 @@ func (c *Conflag) Parse() (err error) {
 
 	// if there is no args, just try to load the app.conf file.
 	if c.cfgFile == "" && len(c.osArgs) == 0 {
-		c.cfgFile = c.app + ".conf"
+		// trim app exetension
+		for i := len(c.app) - 1; i >= 0 && c.app[i] != '/' && c.app[i] != '\\'; i-- {
+			if c.app[i] == '.' {
+				c.cfgFile = c.app[:i]
+				break
+			}
+		}
+
+		if c.cfgFile == "" {
+			c.cfgFile = c.app
+		}
+
+		c.cfgFile += ".conf"
 	}
 
 	if c.cfgFile == "" {
