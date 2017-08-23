@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -15,6 +16,8 @@ type Conflag struct {
 	osArgs  []string
 	cfgFile string
 	args    []string
+
+	includes []string
 
 	// TODO: add shorthand? or just use pflag?
 	// shorthand map[byte]string
@@ -47,6 +50,9 @@ func NewFromFile(app, cfgFile string) *Conflag {
 
 	c.cfgFile = cfgFile
 	c.FlagSet = flag.NewFlagSet(c.app, flag.ExitOnError)
+
+	c.StringSliceUniqVar(&c.includes, "include", nil, "include file")
+
 	return c
 }
 
@@ -87,7 +93,29 @@ func (c *Conflag) Parse() (err error) {
 	c.args = fargs
 	c.args = append(c.args, c.osArgs...)
 
-	return c.FlagSet.Parse(c.args)
+	// parse 2nd time to get the include file values
+	err = c.FlagSet.Parse(c.args)
+	if err != nil {
+		return err
+	}
+
+	dir := filepath.Dir(c.cfgFile)
+
+	// parse 3rd time to parse flags in include file
+	for _, include := range c.includes {
+		include = filepath.Join(dir, include)
+		fargs, err := parseFile(include)
+		if err != nil {
+			return err
+		}
+
+		c.args = fargs
+		c.args = append(c.args, c.osArgs...)
+
+		err = c.FlagSet.Parse(c.args)
+	}
+
+	return err
 }
 
 func parseFile(cfgFile string) ([]string, error) {
