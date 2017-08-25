@@ -139,3 +139,13 @@ func parseFile(cfgFile string) ([]string, error) {
 
 	return s, nil
 }
+
+// AppDir returns the app dir
+func (c *Conflag) AppDir() string {
+	return filepath.Dir(os.Args[0])
+}
+
+// ConfDir returns the config file dir
+func (c *Conflag) ConfDir() string {
+	return filepath.Dir(c.cfgFile)
+}
