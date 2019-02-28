@@ -15,8 +15,8 @@
 
 
 # custom
+.idea
+.vscode
+bak
+
 *.zip
-/*.conf
-/*.rule
-glider
-bak/

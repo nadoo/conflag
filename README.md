@@ -1,5 +1,5 @@
 # conflag
-conflag is a config file and command line parser based on Go's standard flag package.
+conflag is a drop-in replacement for Go's standard flag package.
 
 ## Usage
 
