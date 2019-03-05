@@ -8,8 +8,9 @@ import (
 	"strings"
 )
 
-// Conflag .
+// A Conflag represents the state of a conflag.
 type Conflag struct {
+	// embeded the standard FlagSet so wen can use all it's methods.
 	*flag.FlagSet
 
 	app     string
@@ -23,7 +24,7 @@ type Conflag struct {
 	// shorthand map[byte]string
 }
 
-// New ...
+// New parses os args and returns a new Conflag instance.
 func New(args ...string) *Conflag {
 	if args == nil {
 		args = os.Args
@@ -38,7 +39,7 @@ func New(args ...string) *Conflag {
 	return c
 }
 
-// NewFromFile ...
+// NewFromFile parses cfgFile and returns a new Conflag instance.
 func NewFromFile(app, cfgFile string) *Conflag {
 	c := &Conflag{}
 
@@ -56,7 +57,7 @@ func NewFromFile(app, cfgFile string) *Conflag {
 	return c
 }
 
-// Parse ...
+// Parse parses config file and flags.
 func (c *Conflag) Parse() (err error) {
 	// parse 1st time and see whether there is a conf file.
 	err = c.FlagSet.Parse(c.osArgs)
@@ -140,12 +141,12 @@ func parseFile(cfgFile string) ([]string, error) {
 	return s, nil
 }
 
-// AppDir returns the app dir
+// AppDir returns the app dir.
 func (c *Conflag) AppDir() string {
 	return filepath.Dir(os.Args[0])
 }
 
-// ConfDir returns the config file dir
+// ConfDir returns the config file dir.
 func (c *Conflag) ConfDir() string {
 	return filepath.Dir(c.cfgFile)
 }
