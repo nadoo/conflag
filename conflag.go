@@ -30,28 +30,24 @@ func New(args ...string) *Conflag {
 		args = os.Args
 	}
 
-	c := &Conflag{}
-	c.app = args[0]
-	c.osArgs = args[1:]
+	c := &Conflag{app: args[0], osArgs: args[1:]}
+
 	c.FlagSet = flag.NewFlagSet(c.app, flag.ExitOnError)
-	c.FlagSet.StringVar(&c.cfgFile, "config", "", "config file path")
+	c.StringVar(&c.cfgFile, "config", "", "config file path")
+	c.StringSliceUniqVar(&c.includes, "include", nil, "include file")
 
 	return c
 }
 
 // NewFromFile parses cfgFile and returns a new Conflag instance.
 func NewFromFile(app, cfgFile string) *Conflag {
-	c := &Conflag{}
-
-	if app != "" {
-		c.app = app
-	} else {
-		c.app = os.Args[0]
+	if app == "" {
+		app = os.Args[0]
 	}
 
-	c.cfgFile = cfgFile
-	c.FlagSet = flag.NewFlagSet(c.app, flag.ExitOnError)
+	c := &Conflag{app: app, cfgFile: cfgFile}
 
+	c.FlagSet = flag.NewFlagSet(c.app, flag.ExitOnError)
 	c.StringSliceUniqVar(&c.includes, "include", nil, "include file")
 
 	return c
@@ -122,16 +118,15 @@ func (c *Conflag) Parse() (err error) {
 func parseFile(cfgFile string) ([]string, error) {
 	var s []string
 
-	fp, err := os.Open(cfgFile)
+	f, err := os.Open(cfgFile)
 	if err != nil {
 		return nil, err
 	}
-	defer fp.Close()
+	defer f.Close()
 
-	scanner := bufio.NewScanner(fp)
+	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
-		line := scanner.Text()
-		line = strings.TrimSpace(line)
+		line := strings.TrimSpace(scanner.Text())
 		if len(line) == 0 || line[:1] == "#" {
 			continue
 		}

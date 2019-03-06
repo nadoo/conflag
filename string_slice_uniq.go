@@ -36,15 +36,13 @@ func (s *stringSliceUniqValue) String() string {
 	return ""
 }
 
-// StringSliceUniqVar defines a string flag with specified name, default value, and usage string.
-// The argument p points to a []string variable in which to store the value of the flag.
+// StringSliceUniqVar works like StringSliceVar but the items in slice are unique.
 func (c *Conflag) StringSliceUniqVar(p *[]string, name string, value []string, usage string) {
 	c.Var(newStringSliceUniqValue(value, p), name, usage)
 }
 
-// StringUniqSlice defines a string flag with specified name, default value, and usage string.
-// The return value is the address of a []string variable that stores the value of the flag.
-func (c *Conflag) StringUniqSlice(name string, value []string, usage string) *[]string {
+// StringSliceUniq works like StringSlice but the items in slice are unique.
+func (c *Conflag) StringSliceUniq(name string, value []string, usage string) *[]string {
 	p := []string{}
 	c.StringSliceUniqVar(&p, name, value, usage)
 	return &p

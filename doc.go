@@ -36,5 +36,25 @@ Create a conflag instance and then you can use it like the standard flag package
 		fmt.Printf("  Age: %d\n", conf.Age)
 		fmt.Printf("  Male: %v\n", conf.Male)
 	}
+
+Config File
+
+Just use the command line flag name as key name:
+
+	## config file
+	# comment line starts with "#"
+
+	# format:
+	#KEY=VALUE,
+	# just use the command line flag name as the key name
+
+	# your name
+	name=Jason
+
+	# your age
+	age=20
+
+	# are you male?
+	male
 */
 package conflag

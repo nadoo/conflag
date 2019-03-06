@@ -89,7 +89,7 @@ output:
 ## Config File
 - format: KEY=VALUE
 
-**just use the command line flag name as the key name**:
+**just use the command line flag name as key name**:
 
 ```bash
 ## config file
@@ -97,7 +97,7 @@ output:
 
 # format:
 #KEY=VALUE, 
-# just use the command line flag name as the key name
+# just use the command line flag name as key name
 
 # your name
 name=Jason
