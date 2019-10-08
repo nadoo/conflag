@@ -10,7 +10,7 @@ import (
 
 // A Conflag represents the state of a conflag.
 type Conflag struct {
-	// embeded the standard FlagSet so wen can use all it's methods.
+	// embedded the standard FlagSet so we can use all its methods.
 	*flag.FlagSet
 
 	app     string
