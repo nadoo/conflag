@@ -1,4 +1,9 @@
 # conflag
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/nadoo/conflag?style=flat-square)](https://goreportcard.com/report/github.com/nadoo/conflag)
+[![GitHub tag](https://img.shields.io/github/tag/nadoo/conflag.svg?style=flat-square)](https://github.com/nadoo/conflag/releases)
+[![GoDoc](https://img.shields.io/badge/go-doc-blue.svg?style=flat-square)](http://godoc.org/github.com/nadoo/conflag)
+
 conflag is a drop-in replacement for Go's standard flag package with config file support.
 
 ## Usage
