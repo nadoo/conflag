@@ -101,15 +101,18 @@ func (c *Conflag) Parse() (err error) {
 	// parse 3rd time to parse flags in include file
 	for _, include := range c.includes {
 		include = filepath.Join(dir, include)
-		fargs, err := parseFile(include)
-		if err != nil {
-			return err
+		args, er := parseFile(include)
+		if er != nil {
+			return er
 		}
 
-		c.args = fargs
+		c.args = args
 		c.args = append(c.args, c.osArgs...)
 
-		err = c.FlagSet.Parse(c.args)
+		er = c.FlagSet.Parse(c.args)
+		if er != nil {
+			return er
+		}
 	}
 
 	return err

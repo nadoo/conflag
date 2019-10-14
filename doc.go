@@ -55,6 +55,10 @@ Just use the command line flag name as key name:
 	age=20
 
 	# are you male?
-	male
+	male=true
+
+	# use include to include more config files
+	include=part1.inc.conf
+	include=part2.inc.conf
 */
 package conflag
