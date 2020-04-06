@@ -3,6 +3,7 @@ package conflag
 import (
 	"bufio"
 	"flag"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -118,6 +119,16 @@ func (c *Conflag) Parse() (err error) {
 	return err
 }
 
+// AppDir returns the app dir.
+func (c *Conflag) AppDir() string {
+	return filepath.Dir(os.Args[0])
+}
+
+// ConfDir returns the config file dir.
+func (c *Conflag) ConfDir() string {
+	return filepath.Dir(c.cfgFile)
+}
+
 func parseFile(cfgFile string) ([]string, error) {
 	var s []string
 
@@ -127,7 +138,7 @@ func parseFile(cfgFile string) ([]string, error) {
 	}
 	defer f.Close()
 
-	scanner := bufio.NewScanner(f)
+	scanner := bufio.NewScanner(BOMReader(f))
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 		if len(line) == 0 || line[:1] == "#" {
@@ -139,12 +150,15 @@ func parseFile(cfgFile string) ([]string, error) {
 	return s, nil
 }
 
-// AppDir returns the app dir.
-func (c *Conflag) AppDir() string {
-	return filepath.Dir(os.Args[0])
-}
-
-// ConfDir returns the config file dir.
-func (c *Conflag) ConfDir() string {
-	return filepath.Dir(c.cfgFile)
+// BOMReader returns a Reader that discards the UTF-8 BOM header.
+func BOMReader(ir io.Reader) io.Reader {
+	r := bufio.NewReader(ir)
+	b, err := r.Peek(3)
+	if err != nil {
+		return r
+	}
+	if b[0] == 0xef && b[1] == 0xbb && b[2] == 0xbf {
+		r.Discard(3)
+	}
+	return r
 }
