@@ -18,6 +18,6 @@
 .idea
 .vscode
 bak
-example
+example/example
 
 *.zip
