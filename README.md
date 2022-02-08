@@ -46,7 +46,7 @@ func main() {
 ### Run without config file:
 command:
 ```bash
-sample -name Jay -age 30
+example -name Jay -age 30
 ```
 output:
 ```bash
@@ -55,16 +55,16 @@ output:
   Male: false
 ```
 
-### Run with config file(-config):
-sample.conf:
+### Run with config file and environment variable(-config):
+example.conf:
 ```bash
-name=Jason
+name={$NAME}
 age=20
 male
 ```
 command: **use "-config" flag to specify the config file path.**
 ```bash
-sample -config sample.conf
+NAME=Jason example -config example.conf
 ```
 output:
 ```bash
@@ -74,7 +74,7 @@ output:
 ```
 
 ### Run with config file and OVERRIDE a flag value using commandline:
-sample.conf:
+example.conf:
 ```bash
 name=Jason
 age=20
@@ -82,7 +82,7 @@ male
 ```
 command:
 ```bash
-sample -config sample.conf -name Michael
+example -config example.conf -name Michael
 ```
 output:
 ```bash
@@ -103,9 +103,10 @@ output:
 # format:
 #KEY=VALUE, 
 # just use the command line flag name as key name
+# use {$ENV_VAR_NAME} in VALUE to get the Environment Variable value
 
 # your name
-name=Jason
+name={$NAME}
 
 # your age
 age=20
@@ -117,4 +118,4 @@ male=true
 include=part1.inc.conf
 include=part2.inc.conf
 ```
-See [simple.conf](examples/simple/simple.conf)
+See [example.conf](example/example.conf)

@@ -138,20 +138,44 @@ func parseFile(cfgFile string) ([]string, error) {
 	}
 	defer f.Close()
 
-	scanner := bufio.NewScanner(BOMReader(f))
+	scanner := bufio.NewScanner(bomReader(f))
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 		if len(line) == 0 || line[:1] == "#" {
 			continue
 		}
+		line = parseEnvs(line)
 		s = append(s, "-"+line)
 	}
 
 	return s, nil
 }
 
-// BOMReader returns a Reader that discards the UTF-8 BOM header.
-func BOMReader(ir io.Reader) io.Reader {
+func parseEnvs(line string) string {
+	for {
+		s := parseEnv(line)
+		if s == line {
+			break
+		}
+		line = s
+	}
+	return line
+}
+
+func parseEnv(line string) string {
+	if i := strings.IndexByte(line, '{'); i != -1 {
+		if j := strings.IndexByte(line[i:], '}'); j != -1 {
+			if line[i+1] == '$' {
+				param := line[i+2 : i+j]
+				return line[:i] + os.Getenv(param) + line[i+j+1:]
+			}
+		}
+	}
+	return line
+}
+
+// bomReader returns a Reader that discards the UTF-8 BOM header.
+func bomReader(ir io.Reader) io.Reader {
 	r := bufio.NewReader(ir)
 	b, err := r.Peek(3)
 	if err != nil {
