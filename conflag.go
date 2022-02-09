@@ -163,12 +163,10 @@ func parseEnvs(line string) string {
 }
 
 func parseEnv(line string) string {
-	if i := strings.IndexByte(line, '{'); i != -1 {
-		if j := strings.IndexByte(line[i:], '}'); j != -1 {
-			if line[i+1] == '$' {
-				param := line[i+2 : i+j]
-				return line[:i] + os.Getenv(param) + line[i+j+1:]
-			}
+	if i := strings.Index(line, "{$"); i != -1 {
+		if j := strings.IndexByte(line[i+1:], '}'); j != -1 {
+			param := line[i+2 : i+j+1]
+			return line[:i] + os.Getenv(param) + line[i+j+2:]
 		}
 	}
 	return line
